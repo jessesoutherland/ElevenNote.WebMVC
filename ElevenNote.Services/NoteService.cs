@@ -21,7 +21,7 @@ namespace ElevenNote.Services
             var entity =
                 new Note()
                 {
-                    OwnerId = _userID,
+                    OwnerID = _userID,
                     Title = model.Title,
                     Content = model.Content,
                     CreatedUtc = DateTimeOffset.Now
@@ -40,12 +40,12 @@ namespace ElevenNote.Services
                 var query =
                     ctx
                         .Notes
-                        .Where(e => e.OwnerId == _userID)
+                        .Where(e => e.OwnerID == _userID)
                         .Select(
                             e =>
                                 new NoteListItem
                                 {
-                                    NoteId = e.NoteId,
+                                    NoteID = e.NoteID,
                                     Title = e.Title,
                                     CreatedUtc = e.CreatedUtc
                                 }
@@ -54,42 +54,42 @@ namespace ElevenNote.Services
             }
         }
 
-        //public NoteDetail GetNoteById(int id)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var entity =
-        //            ctx
-        //                .Notes
-        //                .Single(e => e.NoteId == id && e.OwnerId == _userId);
-        //        return
-        //            new NoteDetail
-        //            {
-        //                NoteId = entity.NoteId,
-        //                Title = entity.Title,
-        //                Content = entity.Content,
-        //                CreatedUtc = entity.CreatedUtc,
-        //                ModifiedUtc = entity.ModifiedUtc
-        //            };
-        //    }
-        //}
+        public NoteDetail GetNoteById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Notes
+                        .Single(e => e.NoteID == id && e.OwnerID == _userID);
+                return
+                    new NoteDetail
+                    {
+                        NoteID = entity.NoteID,
+                        Title = entity.Title,
+                        Content = entity.Content,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+            }
+        }
 
-        //public bool UpdateNote(NoteEdit model)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var entity =
-        //            ctx
-        //                .Notes
-        //                .Single(e => e.NoteId == model.NoteId && e.OwnerId == _userId);
+        public bool UpdateNote(NoteEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Notes
+                        .Single(e => e.NoteID == model.NoteID && e.OwnerID == _userID);
 
-        //        entity.Title = model.Title;
-        //        entity.Content = model.Content;
-        //        entity.ModifiedUtc = DateTimeOffset.UtcNow;
+                entity.Title = model.Title;
+                entity.Content = model.Content;
+                entity.ModifiedUtc = DateTimeOffset.UtcNow;
 
-        //        return ctx.SaveChanges() == 1;
-        //    }
-        //}
+                return ctx.SaveChanges() == 1;
+            }
+        }
 
         //public bool DeleteNote(int noteId)
         //{
