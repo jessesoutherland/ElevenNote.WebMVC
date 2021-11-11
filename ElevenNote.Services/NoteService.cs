@@ -91,19 +91,19 @@ namespace ElevenNote.Services
             }
         }
 
-        //public bool DeleteNote(int noteId)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var entity =
-        //            ctx
-        //                .Notes
-        //                .Single(e => e.NoteId == noteId && e.OwnerId == _userId);
+        public bool DeleteNote(int noteId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Notes
+                        .Single(e => e.NoteID == noteId && e.OwnerID == _userID);
 
-        //        ctx.Notes.Remove(entity);
+                ctx.Notes.Remove(entity);
 
-        //        return ctx.SaveChanges() == 1;
-        //    }
-        //}
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
